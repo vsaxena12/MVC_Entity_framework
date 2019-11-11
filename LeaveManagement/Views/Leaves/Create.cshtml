@@ -1,0 +1,53 @@
+﻿@model LeaveManagement.Models.Leave
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Leave</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveTypeID" class="control-label"></label>
+                <input asp-for="LeaveTypeID" class="form-control" />
+                <span asp-validation-for="LeaveTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Noofdays" class="control-label"></label>
+                <input asp-for="Noofdays" class="form-control" />
+                <span asp-validation-for="Noofdays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveReason" class="control-label"></label>
+                <input asp-for="LeaveReason" class="form-control" />
+                <span asp-validation-for="LeaveReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveStatus" class="control-label"></label>
+                <input asp-for="LeaveStatus" class="form-control" />
+                <span asp-validation-for="LeaveStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -8478,11 +8478,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\MVCsampleProject\\MVCsampleProject\\MVCsampleProject.csproj",
+      "projectUniqueName": "F:\\MVC_Entity_framework\\MVCsampleProject\\MVCsampleProject\\MVCsampleProject.csproj",
       "projectName": "MVCsampleProject",
-      "projectPath": "F:\\MVCsampleProject\\MVCsampleProject\\MVCsampleProject.csproj",
+      "projectPath": "F:\\MVC_Entity_framework\\MVCsampleProject\\MVCsampleProject\\MVCsampleProject.csproj",
       "packagesPath": "C:\\Users\\vswin\\.nuget\\packages\\",
-      "outputPath": "F:\\MVCsampleProject\\MVCsampleProject\\obj\\",
+      "outputPath": "F:\\MVC_Entity_framework\\MVCsampleProject\\MVCsampleProject\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

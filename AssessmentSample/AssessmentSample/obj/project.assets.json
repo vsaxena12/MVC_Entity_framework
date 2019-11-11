@@ -8131,11 +8131,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\AssessmentSample\\AssessmentSample\\AssessmentSample.csproj",
+      "projectUniqueName": "F:\\MVC_Entity_framework\\AssessmentSample\\AssessmentSample\\AssessmentSample.csproj",
       "projectName": "AssessmentSample",
-      "projectPath": "F:\\AssessmentSample\\AssessmentSample\\AssessmentSample.csproj",
+      "projectPath": "F:\\MVC_Entity_framework\\AssessmentSample\\AssessmentSample\\AssessmentSample.csproj",
       "packagesPath": "C:\\Users\\vswin\\.nuget\\packages\\",
-      "outputPath": "F:\\AssessmentSample\\AssessmentSample\\obj\\",
+      "outputPath": "F:\\MVC_Entity_framework\\AssessmentSample\\AssessmentSample\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

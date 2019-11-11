@@ -48,7 +48,7 @@ namespace MVCsampleProject.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["Department_ID"] = new SelectList(_context.Departments, "Department_ID", "DepartmentName");
+                
             return View();
         }
 
