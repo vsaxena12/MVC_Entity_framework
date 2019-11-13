@@ -22,5 +22,11 @@ namespace Demo_MVC.Models
 
         [Required]
         public string Role { get; set; }
+
+        public enum ROLETYPE
+        { 
+            Manager,
+            User
+        }
     }
 }
