@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookApp.Data;
 using BookApp.Models;
+using BookApp;
 
 namespace BookApp.Controllers
 {
@@ -20,12 +21,29 @@ namespace BookApp.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int? search)
         {
+
             var applicationDbContext = _context.Order.Include(o => o.Product);
 
+            if (search != null)
+            {
+                return View(await applicationDbContext.Where(x => x.OrderID == search).ToListAsync());
+            }
+
             return View(await applicationDbContext.ToListAsync());
+
         }
+        //foreach (Orders o in applicationDbContext)
+        //{
+        //    if (search == o.OrdersID)
+        //    {
+        //        //return View();
+        //    }
+        //}
+
+
 
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -35,15 +53,15 @@ namespace BookApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
+            var Orders = await _context.Order
                 .Include(o => o.Product)
                 .FirstOrDefaultAsync(m => m.OrderID == id);
-            if (order == null)
+            if (Orders == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(Orders);
         }
 
         // GET: Orders/Create
@@ -58,36 +76,43 @@ namespace BookApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID,CustomerName,Address,PhoneNumber,ProductID,OrderQuantity,FinalPrice")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderID,CustomerName,Address,PhoneNumber,ProductID,OrdersQuantity")] Order Orders)
         {
+            //var costTemp = 0;
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+
+                _context.Add(Orders);
                 await _context.SaveChangesAsync();
                 var applicationDbContext = _context.Order.Include(o => o.Product);
+                //if (!applicationDbContext.Any())
+                //{
+                //    if (Orders.ProductID == Orders.Product.ProductID)
+                //    {
+                //        Orders.FinalPrice = (int)(Orders.OrdersQuantity * Orders.Product.Cost);
+                //    }
+                //}
+                //else
+                //{
+
                 foreach (Order o in applicationDbContext)
                 {
-                    if (o.OrderQuantity <= o.Product.ProductQuantity) 
+                    if (o.ProductID == o.Product.ProductID)
                     {
-                        if (o.ProductID == o.Product.ProductID)
-                        {
-                            order.FinalPrice = (int)(order.OrderQuantity * o.Product.Cost);
-                        }
-                        
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Error", "Check ID");
+                        Orders.FinalPrice = (int)(Orders.OrderQuantity * o.Product.Cost);
                     }
                 }
-                _context.Update(order);
+                //}
+
+                // Orders.FinalPrice = costTemp;
+                _context.Update(Orders);
 
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductID"] = new SelectList(_context.Product, "ProductID", "ProductName", order.ProductID);
-            return View(order);
+            ViewData["ProductID"] = new SelectList(_context.Product, "ProductID", "ProductName", Orders.ProductID);
+            return View(Orders);
         }
 
         // GET: Orders/Edit/5
@@ -98,13 +123,13 @@ namespace BookApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var Orders = await _context.Order.FindAsync(id);
+            if (Orders == null)
             {
                 return NotFound();
             }
-            ViewData["ProductID"] = new SelectList(_context.Product, "ProductID", "ProductName", order.ProductID);
-            return View(order);
+            ViewData["ProductID"] = new SelectList(_context.Product, "ProductID", "ProductName", Orders.ProductID);
+            return View(Orders);
         }
 
         // POST: Orders/Edit/5
@@ -112,9 +137,9 @@ namespace BookApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,CustomerName,Address,PhoneNumber,ProductID,OrderQuantity,FinalPrice")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("OrdersID,CustomerName,Address,PhoneNumber,ProductID,OrdersQuantity,FinalPrice")] Order Orders)
         {
-            if (id != order.OrderID)
+            if (id != Orders.OrderID)
             {
                 return NotFound();
             }
@@ -123,12 +148,12 @@ namespace BookApp.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(Orders);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.OrderID))
+                    if (!OrdersExists(Orders.OrderID))
                     {
                         return NotFound();
                     }
@@ -139,8 +164,8 @@ namespace BookApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductID"] = new SelectList(_context.Product, "ProductID", "ProductName", order.ProductID);
-            return View(order);
+            ViewData["ProductID"] = new SelectList(_context.Product, "ProductID", "ProductName", Orders.ProductID);
+            return View(Orders);
         }
 
         // GET: Orders/Delete/5
@@ -151,15 +176,15 @@ namespace BookApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
+            var Orders = await _context.Order
                 .Include(o => o.Product)
                 .FirstOrDefaultAsync(m => m.OrderID == id);
-            if (order == null)
+            if (Orders == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(Orders);
         }
 
         // POST: Orders/Delete/5
@@ -167,13 +192,13 @@ namespace BookApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Order.FindAsync(id);
-            _context.Order.Remove(order);
+            var Orders = await _context.Order.FindAsync(id);
+            _context.Order.Remove(Orders);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        private bool OrdersExists(int id)
         {
             return _context.Order.Any(e => e.OrderID == id);
         }
